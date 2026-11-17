@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--
-  Editable del póster A1. El PDF (poster-a1.pdf) es 100 % vectorial en A4: en la imprenta se amplía a A1 (283 %) sin pérdida.
+  Editable del póster A1. El PDF (poster-a1.pdf) es vectorial en A4, salvo la captura de Grafana: en la imprenta se amplía a A1 (283 %).
   Para regenerarlo: en una copia temporal, agregar dentro de @media print las reglas
     @page { size: A4 portrait; margin: 0; }  .poster { zoom: 0.3531; }
     .header { background: var(--primary); }  .poster, .section, .result-item { box-shadow: none !important; }
   (el gradiente y las sombras rasterizan el PDF) y correr:
     msedge --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=poster-a1.pdf <copia.html>
-  Pendiente: captura de Grafana con un nodo caído.
+  La copia tiene que estar en poster/ (o con la ruta de la imagen absoluta) para que cargue la captura.
 -->
 <html lang="es">
 <head>
@@ -174,6 +174,24 @@
     .placeholder-sm { min-height: 45mm; }
     .placeholder-label { font-style: italic; }
 
+    /* ── CAPTURA DE GRAFANA ── */
+    .shot { margin-top: 4mm; }
+    .shot .frame {
+      width: 82%;
+      margin: 0 auto;
+      aspect-ratio: 1389 / 752;   /* recorta la franja vacía de abajo de la captura */
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 3mm;
+    }
+    .shot img { width: 100%; display: block; }
+    .shot .caption {
+      font-size: 15pt;
+      color: var(--text-light);
+      margin-top: 2mm;
+      text-align: center;
+    }
+
     /* ── RESULTS ── */
     .results-grid {
       display: grid;
@@ -260,7 +278,7 @@
       .result-item h4 { font-size: 15px; }
       .result-item .big { font-size: 22px; }
       .result-item p { font-size: 13px; }
-      .diagram .caption { font-size: 12px; }
+      .diagram .caption, .shot .caption { font-size: 12px; }
       .footer { padding: 12px 20px; font-size: 12px; flex-wrap: wrap; gap: 12px; }
       .footer .qr-placeholder { width: 60px; height: 60px; }
     }
@@ -407,8 +425,9 @@
           <li><strong>Automatización:</strong> Ansible idempotente, secretos en un vault cifrado, backups cifrados del router y del clúster.</li>
           <li><strong>Verificación:</strong> un pedido cada 0,2 s durante cada falla, capturas de Wireshark y pruebas de segmentación automatizadas.</li>
         </ul>
-        <div class="placeholder placeholder-sm">
-          <div class="placeholder-label">[pendiente: captura del tablero de Grafana con un nodo caído]</div>
+        <div class="shot">
+          <div class="frame"><img src="../capturas/r4-tablero-agent1-caido.png" alt="Tablero de Grafana con k3s-agent1 caído y 2 de 3 sesiones BGP establecidas"></div>
+          <p class="caption">Tablero de Grafana con agent1 caído: quedan 2 de 3 sesiones BGP.</p>
         </div>
       </div>
 
